@@ -1,7 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+
 const JSend = require("./jsend");
 const contactsRouter = require("./routes/contacts.router");
+const {
+  resourceNotFound,
+  handleError,
+} = require("./controllers/errors.controller");
 const app = express();
 
 app.use(cors());
@@ -13,4 +18,11 @@ app.get("/", (req, res) => {
 });
 
 contactsRouter.setup(app);
+
+// handle 404 reponse
+app.use(resourceNotFound);
+
+// define error-handling middleware
+app.use(handleError);
+
 module.exports = app;
